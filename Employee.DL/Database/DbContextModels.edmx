@@ -5,7 +5,7 @@
     <!-- SSDL content -->
     <edmx:StorageModels>
       <Schema Namespace="MvcDemoModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
-        <EntityType Name="tblCountriesMater">
+        <EntityType Name="CountriesMater">
           <Key>
             <PropertyRef Name="CountryID" />
           </Key>
@@ -14,7 +14,7 @@
           <Property Name="TwoCharCountryCode" Type="char" MaxLength="2" />
           <Property Name="ThreeCharCountryCode" Type="char" MaxLength="3" />
         </EntityType>
-        <EntityType Name="tblEmployee">
+        <EntityType Name="Employee">
           <Key>
             <PropertyRef Name="EmployeeId" />
           </Key>
@@ -30,48 +30,48 @@
           <Property Name="CreatedOn" Type="date" />
           <Property Name="UpdatedOn" Type="date" />
         </EntityType>
-        <EntityType Name="tblTitleMaster">
+        <EntityType Name="TitleMaster">
           <Key>
             <PropertyRef Name="TitleId" />
           </Key>
           <Property Name="TitleId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="Title" Type="nvarchar" MaxLength="6" />
         </EntityType>
-        <Association Name="FK__tblEmploy__Count__2C3393D0">
-          <End Role="tblCountriesMater" Type="Self.tblCountriesMater" Multiplicity="0..1" />
-          <End Role="tblEmployee" Type="Self.tblEmployee" Multiplicity="*" />
+        <Association Name="FK__tblEmploy__Count__37A5467C">
+          <End Role="CountriesMater" Type="Self.CountriesMater" Multiplicity="0..1" />
+          <End Role="Employee" Type="Self.Employee" Multiplicity="*" />
           <ReferentialConstraint>
-            <Principal Role="tblCountriesMater">
+            <Principal Role="CountriesMater">
               <PropertyRef Name="CountryID" />
             </Principal>
-            <Dependent Role="tblEmployee">
+            <Dependent Role="Employee">
               <PropertyRef Name="CountryId" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK__tblEmploy__Title__2B3F6F97">
-          <End Role="tblTitleMaster" Type="Self.tblTitleMaster" Multiplicity="0..1" />
-          <End Role="tblEmployee" Type="Self.tblEmployee" Multiplicity="*" />
+        <Association Name="FK__tblEmploy__Title__36B12243">
+          <End Role="TitleMaster" Type="Self.TitleMaster" Multiplicity="0..1" />
+          <End Role="Employee" Type="Self.Employee" Multiplicity="*" />
           <ReferentialConstraint>
-            <Principal Role="tblTitleMaster">
+            <Principal Role="TitleMaster">
               <PropertyRef Name="TitleId" />
             </Principal>
-            <Dependent Role="tblEmployee">
+            <Dependent Role="Employee">
               <PropertyRef Name="TitleId" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
         <EntityContainer Name="MvcDemoModelStoreContainer">
-          <EntitySet Name="tblCountriesMater" EntityType="Self.tblCountriesMater" Schema="dbo" store:Type="Tables" />
-          <EntitySet Name="tblEmployee" EntityType="Self.tblEmployee" Schema="dbo" store:Type="Tables" />
-          <EntitySet Name="tblTitleMaster" EntityType="Self.tblTitleMaster" Schema="dbo" store:Type="Tables" />
-          <AssociationSet Name="FK__tblEmploy__Count__2C3393D0" Association="Self.FK__tblEmploy__Count__2C3393D0">
-            <End Role="tblCountriesMater" EntitySet="tblCountriesMater" />
-            <End Role="tblEmployee" EntitySet="tblEmployee" />
+          <EntitySet Name="CountriesMater" EntityType="Self.CountriesMater" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Employee" EntityType="Self.Employee" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="TitleMaster" EntityType="Self.TitleMaster" Schema="dbo" store:Type="Tables" />
+          <AssociationSet Name="FK__tblEmploy__Count__37A5467C" Association="Self.FK__tblEmploy__Count__37A5467C">
+            <End Role="CountriesMater" EntitySet="CountriesMater" />
+            <End Role="Employee" EntitySet="Employee" />
           </AssociationSet>
-          <AssociationSet Name="FK__tblEmploy__Title__2B3F6F97" Association="Self.FK__tblEmploy__Title__2B3F6F97">
-            <End Role="tblTitleMaster" EntitySet="tblTitleMaster" />
-            <End Role="tblEmployee" EntitySet="tblEmployee" />
+          <AssociationSet Name="FK__tblEmploy__Title__36B12243" Association="Self.FK__tblEmploy__Title__36B12243">
+            <End Role="TitleMaster" EntitySet="TitleMaster" />
+            <End Role="Employee" EntitySet="Employee" />
           </AssociationSet>
         </EntityContainer>
       </Schema>
@@ -79,7 +79,7 @@
     <!-- CSDL content -->
     <edmx:ConceptualModels>
       <Schema Namespace="MvcDemoModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
-        <EntityType Name="tblCountriesMater">
+        <EntityType Name="CountriesMater">
           <Key>
             <PropertyRef Name="CountryID" />
           </Key>
@@ -87,9 +87,9 @@
           <Property Name="CountryName" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
           <Property Name="TwoCharCountryCode" Type="String" MaxLength="2" FixedLength="true" Unicode="false" />
           <Property Name="ThreeCharCountryCode" Type="String" MaxLength="3" FixedLength="true" Unicode="false" />
-          <NavigationProperty Name="tblEmployees" Relationship="Self.FK__tblEmploy__Count__2C3393D0" FromRole="tblCountriesMater" ToRole="tblEmployee" />
+          <NavigationProperty Name="Employees" Relationship="Self.FK__tblEmploy__Count__37A5467C" FromRole="CountriesMater" ToRole="Employee" />
         </EntityType>
-        <EntityType Name="tblEmployee">
+        <EntityType Name="Employee">
           <Key>
             <PropertyRef Name="EmployeeId" />
           </Key>
@@ -104,52 +104,52 @@
           <Property Name="IsActive" Type="Boolean" />
           <Property Name="CreatedOn" Type="DateTime" Precision="0" />
           <Property Name="UpdatedOn" Type="DateTime" Precision="0" />
-          <NavigationProperty Name="tblCountriesMater" Relationship="Self.FK__tblEmploy__Count__2C3393D0" FromRole="tblEmployee" ToRole="tblCountriesMater" />
-          <NavigationProperty Name="tblTitleMaster" Relationship="Self.FK__tblEmploy__Title__2B3F6F97" FromRole="tblEmployee" ToRole="tblTitleMaster" />
+          <NavigationProperty Name="CountriesMater" Relationship="Self.FK__tblEmploy__Count__37A5467C" FromRole="Employee" ToRole="CountriesMater" />
+          <NavigationProperty Name="TitleMaster" Relationship="Self.FK__tblEmploy__Title__36B12243" FromRole="Employee" ToRole="TitleMaster" />
         </EntityType>
-        <EntityType Name="tblTitleMaster">
+        <EntityType Name="TitleMaster">
           <Key>
             <PropertyRef Name="TitleId" />
           </Key>
           <Property Name="TitleId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="Title" Type="String" MaxLength="6" FixedLength="false" Unicode="true" />
-          <NavigationProperty Name="tblEmployees" Relationship="Self.FK__tblEmploy__Title__2B3F6F97" FromRole="tblTitleMaster" ToRole="tblEmployee" />
+          <NavigationProperty Name="Employees" Relationship="Self.FK__tblEmploy__Title__36B12243" FromRole="TitleMaster" ToRole="Employee" />
         </EntityType>
-        <Association Name="FK__tblEmploy__Count__2C3393D0">
-          <End Role="tblCountriesMater" Type="Self.tblCountriesMater" Multiplicity="0..1" />
-          <End Role="tblEmployee" Type="Self.tblEmployee" Multiplicity="*" />
+        <Association Name="FK__tblEmploy__Count__37A5467C">
+          <End Role="CountriesMater" Type="Self.CountriesMater" Multiplicity="0..1" />
+          <End Role="Employee" Type="Self.Employee" Multiplicity="*" />
           <ReferentialConstraint>
-            <Principal Role="tblCountriesMater">
+            <Principal Role="CountriesMater">
               <PropertyRef Name="CountryID" />
             </Principal>
-            <Dependent Role="tblEmployee">
+            <Dependent Role="Employee">
               <PropertyRef Name="CountryId" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK__tblEmploy__Title__2B3F6F97">
-          <End Role="tblTitleMaster" Type="Self.tblTitleMaster" Multiplicity="0..1" />
-          <End Role="tblEmployee" Type="Self.tblEmployee" Multiplicity="*" />
+        <Association Name="FK__tblEmploy__Title__36B12243">
+          <End Role="TitleMaster" Type="Self.TitleMaster" Multiplicity="0..1" />
+          <End Role="Employee" Type="Self.Employee" Multiplicity="*" />
           <ReferentialConstraint>
-            <Principal Role="tblTitleMaster">
+            <Principal Role="TitleMaster">
               <PropertyRef Name="TitleId" />
             </Principal>
-            <Dependent Role="tblEmployee">
+            <Dependent Role="Employee">
               <PropertyRef Name="TitleId" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <EntityContainer Name="MVCDemoEntities" annotation:LazyLoadingEnabled="true">
-          <EntitySet Name="tblCountriesMaters" EntityType="Self.tblCountriesMater" />
-          <EntitySet Name="tblEmployees" EntityType="Self.tblEmployee" />
-          <EntitySet Name="tblTitleMasters" EntityType="Self.tblTitleMaster" />
-          <AssociationSet Name="FK__tblEmploy__Count__2C3393D0" Association="Self.FK__tblEmploy__Count__2C3393D0">
-            <End Role="tblCountriesMater" EntitySet="tblCountriesMaters" />
-            <End Role="tblEmployee" EntitySet="tblEmployees" />
+        <EntityContainer Name="EMSDemoEntities" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="CountriesMaters" EntityType="Self.CountriesMater" />
+          <EntitySet Name="Employees" EntityType="Self.Employee" />
+          <EntitySet Name="TitleMasters" EntityType="Self.TitleMaster" />
+          <AssociationSet Name="FK__tblEmploy__Count__37A5467C" Association="Self.FK__tblEmploy__Count__37A5467C">
+            <End Role="CountriesMater" EntitySet="CountriesMaters" />
+            <End Role="Employee" EntitySet="Employees" />
           </AssociationSet>
-          <AssociationSet Name="FK__tblEmploy__Title__2B3F6F97" Association="Self.FK__tblEmploy__Title__2B3F6F97">
-            <End Role="tblTitleMaster" EntitySet="tblTitleMasters" />
-            <End Role="tblEmployee" EntitySet="tblEmployees" />
+          <AssociationSet Name="FK__tblEmploy__Title__36B12243" Association="Self.FK__tblEmploy__Title__36B12243">
+            <End Role="TitleMaster" EntitySet="TitleMasters" />
+            <End Role="Employee" EntitySet="Employees" />
           </AssociationSet>
         </EntityContainer>
       </Schema>
@@ -157,10 +157,10 @@
     <!-- C-S mapping content -->
     <edmx:Mappings>
       <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
-        <EntityContainerMapping StorageEntityContainer="MvcDemoModelStoreContainer" CdmEntityContainer="MVCDemoEntities">
-          <EntitySetMapping Name="tblCountriesMaters">
-            <EntityTypeMapping TypeName="MvcDemoModel.tblCountriesMater">
-              <MappingFragment StoreEntitySet="tblCountriesMater">
+        <EntityContainerMapping StorageEntityContainer="MvcDemoModelStoreContainer" CdmEntityContainer="EMSDemoEntities">
+          <EntitySetMapping Name="CountriesMaters">
+            <EntityTypeMapping TypeName="MvcDemoModel.CountriesMater">
+              <MappingFragment StoreEntitySet="CountriesMater">
                 <ScalarProperty Name="CountryID" ColumnName="CountryID" />
                 <ScalarProperty Name="CountryName" ColumnName="CountryName" />
                 <ScalarProperty Name="TwoCharCountryCode" ColumnName="TwoCharCountryCode" />
@@ -168,9 +168,9 @@
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
-          <EntitySetMapping Name="tblEmployees">
-            <EntityTypeMapping TypeName="MvcDemoModel.tblEmployee">
-              <MappingFragment StoreEntitySet="tblEmployee">
+          <EntitySetMapping Name="Employees">
+            <EntityTypeMapping TypeName="MvcDemoModel.Employee">
+              <MappingFragment StoreEntitySet="Employee">
                 <ScalarProperty Name="EmployeeId" ColumnName="EmployeeId" />
                 <ScalarProperty Name="TitleId" ColumnName="TitleId" />
                 <ScalarProperty Name="FirstName" ColumnName="FirstName" />
@@ -185,9 +185,9 @@
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
-          <EntitySetMapping Name="tblTitleMasters">
-            <EntityTypeMapping TypeName="MvcDemoModel.tblTitleMaster">
-              <MappingFragment StoreEntitySet="tblTitleMaster">
+          <EntitySetMapping Name="TitleMasters">
+            <EntityTypeMapping TypeName="MvcDemoModel.TitleMaster">
+              <MappingFragment StoreEntitySet="TitleMaster">
                 <ScalarProperty Name="TitleId" ColumnName="TitleId" />
                 <ScalarProperty Name="Title" ColumnName="Title" />
               </MappingFragment>

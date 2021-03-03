@@ -129,64 +129,25 @@
     <Compile Include="App_Start\FilterConfig.cs" />
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="Controllers\HomeController.cs" />
-    <Compile Include="EFModels\DbContextModel.Context.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>DbContextModel.Context.tt</DependentUpon>
-    </Compile>
-    <Compile Include="EFModels\DbContextModel.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>DbContextModel.tt</DependentUpon>
-    </Compile>
-    <Compile Include="EFModels\DbContextModel.Designer.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>DbContextModel.edmx</DependentUpon>
-    </Compile>
-    <Compile Include="EFModels\tblCountriesMater.cs">
-      <DependentUpon>DbContextModel.tt</DependentUpon>
-    </Compile>
-    <Compile Include="EFModels\tblEmployee.cs">
-      <DependentUpon>DbContextModel.tt</DependentUpon>
-    </Compile>
-    <Compile Include="EFModels\tblTitleMaster.cs">
-      <DependentUpon>DbContextModel.tt</DependentUpon>
-    </Compile>
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="ViewModels\CountryMasterViewModel.cs" />
     <Compile Include="ViewModels\EmployeeViewModel.cs" />
+    <Compile Include="ViewModels\TitleMasterViewModel.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Content\bootstrap-theme.css" />
     <Content Include="Content\bootstrap-theme.min.css" />
     <Content Include="Content\bootstrap.css" />
     <Content Include="Content\bootstrap.min.css" />
-    <Content Include="EFModels\DbContextModel.Context.tt">
-      <Generator>TextTemplatingFileGenerator</Generator>
-      <LastGenOutput>DbContextModel.Context.cs</LastGenOutput>
-      <DependentUpon>DbContextModel.edmx</DependentUpon>
-    </Content>
-    <Content Include="EFModels\DbContextModel.tt">
-      <Generator>TextTemplatingFileGenerator</Generator>
-      <DependentUpon>DbContextModel.edmx</DependentUpon>
-      <LastGenOutput>DbContextModel.cs</LastGenOutput>
-    </Content>
     <Content Include="favicon.ico" />
     <Content Include="fonts\glyphicons-halflings-regular.svg" />
     <Content Include="Global.asax" />
     <Content Include="Content\Site.css" />
     <Content Include="Scripts\bootstrap.js" />
     <Content Include="Scripts\bootstrap.min.js" />
-    <EntityDeploy Include="EFModels\DbContextModel.edmx">
-      <Generator>EntityModelCodeGenerator</Generator>
-      <LastGenOutput>DbContextModel.Designer.cs</LastGenOutput>
-    </EntityDeploy>
-    <Content Include="EFModels\DbContextModel.edmx.diagram">
-      <DependentUpon>DbContextModel.edmx</DependentUpon>
-    </Content>
     <None Include="Scripts\jquery-3.4.1.intellisense.js" />
     <Content Include="Scripts\jquery-3.4.1.js" />
     <Content Include="Scripts\jquery-3.4.1.min.js" />
@@ -211,11 +172,11 @@
     <Content Include="Views\Shared\_Layout.cshtml" />
     <Content Include="Views\Home\About.cshtml" />
     <Content Include="Views\Home\Contact.cshtml" />
-    <Content Include="Views\Home\Index.cshtml" />
     <Content Include="Views\Home\Create.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
+    <Folder Include="EFModels\" />
     <Folder Include="Images\" />
     <Folder Include="Models\" />
   </ItemGroup>
@@ -234,6 +195,12 @@
   </ItemGroup>
   <ItemGroup>
     <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Employee.DL\Employees.DL.csproj">
+      <Project>{8f5a79cf-e7e0-4cad-aad8-65029b7343be}</Project>
+      <Name>Employees.DL</Name>
+    </ProjectReference>
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>

@@ -7,23 +7,25 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace MVCDemoEFr.EFModels
+namespace Employees.DL.Database
 {
     using System;
     using System.Collections.Generic;
     
-    public partial class tblTitleMaster
+    public partial class CountriesMater
     {
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
-        public tblTitleMaster()
+        public CountriesMater()
         {
-            this.tblEmployees = new HashSet<tblEmployee>();
+            this.Employees = new HashSet<Employee>();
         }
     
-        public int TitleId { get; set; }
-        public string Title { get; set; }
+        public int CountryID { get; set; }
+        public string CountryName { get; set; }
+        public string TwoCharCountryCode { get; set; }
+        public string ThreeCharCountryCode { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<tblEmployee> tblEmployees { get; set; }
+        public virtual ICollection<Employee> Employees { get; set; }
     }
 }

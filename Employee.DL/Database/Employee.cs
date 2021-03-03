@@ -7,12 +7,12 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace MVCDemoEFr.EFModels
+namespace Employees.DL.Database
 {
     using System;
     using System.Collections.Generic;
     
-    public partial class tblEmployee
+    public partial class Employee
     {
         public int EmployeeId { get; set; }
         public Nullable<int> TitleId { get; set; }
@@ -26,7 +26,7 @@ namespace MVCDemoEFr.EFModels
         public Nullable<System.DateTime> CreatedOn { get; set; }
         public Nullable<System.DateTime> UpdatedOn { get; set; }
     
-        public virtual tblCountriesMater tblCountriesMater { get; set; }
-        public virtual tblTitleMaster tblTitleMaster { get; set; }
+        public virtual CountriesMater CountriesMater { get; set; }
+        public virtual TitleMaster TitleMaster { get; set; }
     }
 }

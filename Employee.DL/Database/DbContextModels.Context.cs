@@ -7,16 +7,16 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace MVCDemoEFr.EFModels
+namespace Employees.DL.Database
 {
     using System;
     using System.Data.Entity;
     using System.Data.Entity.Infrastructure;
     
-    public partial class MVCDemoEntities : DbContext
+    public partial class EMSDemoEntities : DbContext
     {
-        public MVCDemoEntities()
-            : base("name=MVCDemoEntities")
+        public EMSDemoEntities()
+            : base("name=EMSDemoEntities")
         {
         }
     
@@ -25,8 +25,9 @@ namespace MVCDemoEFr.EFModels
             throw new UnintentionalCodeFirstException();
         }
     
-        public virtual DbSet<tblCountriesMater> tblCountriesMaters { get; set; }
-        public virtual DbSet<tblEmployee> tblEmployees { get; set; }
-        public virtual DbSet<tblTitleMaster> tblTitleMasters { get; set; }
+        public virtual DbSet<CountriesMater> CountriesMaters { get; set; }
+        public virtual DbSet<Employee> Employees { get; set; }
+        public virtual DbSet<TitleMaster> TitleMasters { get; set; }
+        public object Employee { get; internal set; }
     }
 }

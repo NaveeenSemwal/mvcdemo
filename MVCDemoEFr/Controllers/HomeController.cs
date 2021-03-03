@@ -1,18 +1,29 @@
-﻿using MVCDemoEFr.EFModels;
+﻿using Employee.DL.Implementation;
+using Employees.DL.Database;
+using Employees.DL.Implementation;
+using Employees.DL.Interface;
 using MVCDemoEFr.ViewModels;
 using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
-using System.Web;
 using System.Web.Mvc;
+using User = Employees.DL.Database.Employee;
 
 namespace MVCDemoEFr.Controllers
 {
     public class HomeController : Controller
     {
+        readonly IEmployeeRepository _employeeRepository;
+
+        public HomeController()
+        {
+            _employeeRepository = new EmployeeRepository();
+        }
+
         public ActionResult Index()
         {
+            var emplist = _employeeRepository.GetList();
             return View();
         }
 
@@ -33,8 +44,8 @@ namespace MVCDemoEFr.Controllers
         [HttpGet]
         public ActionResult Create()
         {
-            ViewBag.CountryList = new SelectList(GetCountryList(), "CountryId", "CountryName","0");
-            ViewBag.TitleList = new SelectList(GetTitleList(), "TitleId", "Title","0");
+            ViewBag.CountryList = new SelectList(GetCountryList(), "CountryId", "CountryName");
+            ViewBag.TitleList = new SelectList(GetTitleList(), "TitleId", "Title");
             return View();
         }
 
@@ -42,7 +53,6 @@ namespace MVCDemoEFr.Controllers
         public ActionResult Create(EmployeeViewModel model)
         {
             var fileName = string.Empty;
-
             if (model.IdProofName != null)
             {
 
@@ -54,73 +64,89 @@ namespace MVCDemoEFr.Controllers
                 }
             }
 
-            tblEmployee obj = new tblEmployee();
-            MVCDemoEntities dbContext = new MVCDemoEntities();
-            if (model.EmployeeId == 0)
+            // TODO :
+
+            // 1. Create Global object of EmployeeRepository using Interface using Constructor.
+            // 2. Return to Home controller if Insert is successful only.
+
+            User obj = new User();
+            obj.EmployeeId = model.EmployeeId;
+            obj.TitleId = model.TitleId;
+            obj.FirstName = model.FirstName;
+            obj.LastName = model.LastName;
+            obj.Gender = model.Gender;
+            obj.Dob = model.Dob;
+            obj.IdProofName = fileName;
+            obj.CountryId = model.CountryId;
+            obj.IsActive = model.IsActive;
+            obj.CreatedOn = DateTime.Now;
+
+            _employeeRepository.Add(obj);
+            int employeeId = obj.EmployeeId;
+            if (employeeId > 0)
             {
-                obj.TitleId = model.TitleId;
-                obj.FirstName = model.FirstName;
-                obj.LastName = model.LastName;
-                obj.Gender = model.Gender;
-                obj.Dob = model.Dob;
-                obj.IdProofName = fileName;
-                obj.CountryId = model.CountryId;
-                obj.IsActive = model.IsActive;
-                obj.CreatedOn = DateTime.Now;
-                dbContext.tblEmployees.Add(obj);
-                dbContext.SaveChanges();
-                int employeeId = obj.EmployeeId;
-                if (employeeId > 0)
+                var folderName = "EMP-" + employeeId;
+                string uploadRoot = Server.MapPath("~/Images/");
+                string folder = string.Format(uploadRoot + "/{0}/", folderName);
+                if (!Directory.Exists(folder))
                 {
-                    var folderName = "EMP-" + employeeId;
-                    string uploadRoot = Server.MapPath("~/Images/");
-                    string folder = string.Format(uploadRoot + "/{0}/", folderName);
-                    if (!Directory.Exists(folder))
+                    Directory.CreateDirectory(folder);
+                    if (fileName != null && fileName != "")
                     {
-                        Directory.CreateDirectory(folder);
-                        if (fileName != null && fileName != "")
-                        {
-                            var path = Path.Combine(folder, fileName);
-                            model.IdProofName.SaveAs(path);
-                        }
+                        var path = Path.Combine(folder, fileName);
+                        model.IdProofName.SaveAs(path);
                     }
-
                 }
-
+                return RedirectToAction("Index");
             }
             return View();
+
         }
 
-        [HttpGet]
-        public IEnumerable<tblTitleMaster> GetTitleList()
+        [HttpGet] // TODO : Why use this.
+        public IEnumerable<TitleMasterViewModel> GetTitleList()
         {
-            using (var dbContext = new MVCDemoEntities())
+            TitleRepository titleRepository = new TitleRepository(); // Create this globally.
+
+            List<TitleMaster> dbtitleList = titleRepository.GetTitles().ToList();
+
+            List<TitleMasterViewModel> titlelist = new List<TitleMasterViewModel>();
+
+
+            foreach (TitleMaster a in dbtitleList)
             {
-                var titleList = dbContext.tblTitleMasters.ToList();
-                tblTitleMaster tblTitleMaster = new tblTitleMaster();
-                tblTitleMaster.TitleId = 0;
-                tblTitleMaster.Title = "Select title";
-                titleList.Add(tblTitleMaster);
-                return titleList;
+                titlelist.Add(new TitleMasterViewModel()
+                {
+                    Title = a.Title,
+                    TitleId = a.TitleId
+                });
             }
+
+            return titlelist;
+
+
         }
 
-        [HttpGet]
-        public IEnumerable<tblCountriesMater> GetCountryList()
+        [HttpGet] // TODO : Why use this.
+        public IEnumerable<CountryMasterViewModel> GetCountryList()
         {
-            using (var dbContext = new MVCDemoEntities())
+            CountryRepository country = new CountryRepository(); // Create this globally.
+
+            List<CountriesMater> dbcounList = country.GetCountries().ToList();
+
+            List<CountryMasterViewModel> counlist = new List<CountryMasterViewModel>();
+
+
+            foreach (CountriesMater a in dbcounList)
             {
-                var countryList = dbContext.tblCountriesMaters.ToList();
-
-
-                tblCountriesMater tblCountriesMater = new tblCountriesMater();
-                tblCountriesMater.CountryID = 0;
-                tblCountriesMater.CountryName = "Select the country";
-                countryList.Add(tblCountriesMater);
-
-
-                return countryList;
+                counlist.Add(new CountryMasterViewModel()
+                {
+                    CountryID = a.CountryID,
+                    CountryName = a.CountryName
+                });
             }
+
+            return counlist;
         }
 
 
