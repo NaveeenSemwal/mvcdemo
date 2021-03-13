@@ -10,6 +10,8 @@ namespace Employees.DL.Interface
     public interface IEmployeeRepository
     {
         User Add(User obj);
-        IEnumerable<User> GetList();
+        IEnumerable<User> GetList(string searchString);
+        User GetEmpById(int empId);
+        User Update(User model);
     }
 }

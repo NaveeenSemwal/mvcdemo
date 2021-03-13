@@ -18,12 +18,24 @@ namespace MVCDemoEFr.ViewModels
         [Required]
         public string Gender { get; set; }
         [Required]
+        [DisplayFormat(DataFormatString = "{0:yyyy-MM-dd}", ApplyFormatInEditMode = true)]
         public DateTime Dob { get; set; }
         [Required]
         public HttpPostedFileBase IdProofName { get; set; }
+        public string FileName { get; set; }
+        public string ImagePath { get; set; }
         [Required]
         public int CountryId { get; set; }
+        [DisplayFormat(DataFormatString = "{0:yyyy-MM-dd}", ApplyFormatInEditMode = true)]
+        public DateTime CreatedOn { get; set; }
+        [DisplayFormat(DataFormatString = "{0:yyyy-MM-dd}", ApplyFormatInEditMode = true)]
+        public DateTime UpdatedOn { get; set; }
         [Required]
         public bool IsActive { get; set; }
+        public int PageNumber { get; set; }
+
+        public int PageCount { get; set; }
     }
+
+
 }
