@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Linq.Expressions;
 using System.Text;
 using System.Threading.Tasks;
 using User = Employees.DL.Database.Employee;
@@ -10,8 +11,11 @@ namespace Employees.DL.Interface
     public interface IEmployeeRepository
     {
         User Add(User obj);
-        IEnumerable<User> GetList(string searchString);
+
+        IQueryable<User> GetList(string searchString, string sortOrders, int? page, int pageSize);
+
         User GetEmpById(int empId);
+
         User Update(User model);
     }
 }

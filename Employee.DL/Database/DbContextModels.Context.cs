@@ -28,6 +28,5 @@ namespace Employees.DL.Database
         public virtual DbSet<CountriesMater> CountriesMaters { get; set; }
         public virtual DbSet<Employee> Employees { get; set; }
         public virtual DbSet<TitleMaster> TitleMasters { get; set; }
-        public object Employee { get; internal set; }
     }
 }

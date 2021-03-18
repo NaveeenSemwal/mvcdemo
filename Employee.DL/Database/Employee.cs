@@ -25,6 +25,8 @@ namespace Employees.DL.Database
         public Nullable<bool> IsActive { get; set; }
         public Nullable<System.DateTime> CreatedOn { get; set; }
         public Nullable<System.DateTime> UpdatedOn { get; set; }
+        public string Email { get; set; }
+        public string Mobile { get; set; }
     
         public virtual CountriesMater CountriesMater { get; set; }
         public virtual TitleMaster TitleMaster { get; set; }

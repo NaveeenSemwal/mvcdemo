@@ -34,7 +34,7 @@
                         $('#idproofname').show();
                         alert("File not deleted successfully.");
                     }
-                   
+
                 }).fail(function () {
                     alert("There is something wrong. Please try again.");
                 })
@@ -55,6 +55,7 @@
         <hr />
         @Html.ValidationSummary(true, "", new { @class = "text-danger" })
         @Html.HiddenFor(model => model.EmployeeId, new { @id = "id" })
+        @Html.HiddenFor(model => model.FileName, new { @id = "filename" })
 
         <div class="form-group">
             @Html.LabelFor(model => model.TitleId, "Title", htmlAttributes: new { @class = "control-label col-md-2" })
@@ -126,6 +127,22 @@
             <div class="col-md-10">
                 @Html.DropDownListFor(model => model.CountryId, (IEnumerable<SelectListItem>)ViewBag.CountryList as SelectList, "Select the country", new { htmlAttributes = new { @class = "form-control" } })
                 @Html.ValidationMessageFor(model => model.CountryId, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.Email, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.Email, new { htmlAttributes = new { type = "email", @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.Email, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.Mobile, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.Mobile, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.Mobile, "", new { @class = "text-danger" })
             </div>
         </div>
 

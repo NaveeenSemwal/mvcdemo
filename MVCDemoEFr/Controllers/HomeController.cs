@@ -12,6 +12,7 @@ using PagedList;
 using User = Employees.DL.Database.Employee;
 using System.Configuration;
 using System.Web;
+using System.Linq.Expressions;
 
 namespace MVCDemoEFr.Controllers
 {
@@ -30,6 +31,8 @@ namespace MVCDemoEFr.Controllers
         /// <returns></returns>
         public ActionResult Index(string sortOrder, string currentFilter, string searchString, int? page = 1)
         {
+            int pageSize = 3;
+
             ViewBag.CurrentSort = sortOrder;
             ViewBag.NameSortParm = String.IsNullOrEmpty(sortOrder) ? "FirstName_asc" : "FirstName_desc";
             ViewBag.DateSortParm = sortOrder == "CreatedDate" ? "CreatedDate_asc" : "CreatedDate_desc";
@@ -44,35 +47,16 @@ namespace MVCDemoEFr.Controllers
             }
 
             ViewBag.CurrentFilter = searchString;
-            List<User> emplist = _employeeRepository.GetList(searchString).ToList();
-            emplist = SortEmployees(sortOrder, emplist);
+
+            List<User> emplist = _employeeRepository.GetList(searchString, sortOrder, page, pageSize).ToList();
+
 
             List<EmployeeViewModel> employees = PopulateEmployees(emplist);
-            int pageSize = 10;
+
             int pageNumber = (page ?? 1);
             return View(employees.ToPagedList(pageNumber, pageSize));
         }
 
-        private static List<User> SortEmployees(string sortOrder, List<User> emplist)
-        {
-            switch (sortOrder)
-            {
-                case "FirstName_desc":
-                    emplist = emplist.OrderByDescending(s => s.FirstName).ToList();
-                    break;
-                case "UpdatedOn":
-                    emplist = emplist.OrderByDescending(s => s.UpdatedOn).ToList();
-                    break;
-                case "CreatedDate_desc":
-                    emplist = emplist.OrderByDescending(s => s.CreatedOn).ToList();
-                    break;
-                default:
-                    emplist = emplist.OrderBy(s => s.FirstName).ToList();
-                    break;
-            }
-
-            return emplist;
-        }
 
         private static List<EmployeeViewModel> PopulateEmployees(List<User> emplist)
         {
@@ -84,9 +68,15 @@ namespace MVCDemoEFr.Controllers
                 employees.Add(new EmployeeViewModel()
                 {
                     EmployeeId = a.EmployeeId,
-                    FirstName = a.FirstName,
+                    FirstName = a.TitleMaster.Title + a.FirstName + ' ' + a.LastName,
+                    Country = a.CountriesMater.CountryName,
                     Dob = a.Dob.Value,
+                    Gender = a.Gender == "M" ? "Male" : "Female",
+                    Email = a.Email,
+                    Mobile = a.Mobile == null ? "N/A" : a.Mobile,
                     CreatedOn = a.CreatedOn.Value
+
+
 
                 });
             }
@@ -131,6 +121,11 @@ namespace MVCDemoEFr.Controllers
                 }
             }
 
+            else
+            {
+                fileName = model.FileName;
+            }
+
             User obj = PopulateEmployeeDTO(model, fileName);
 
             int employeeId = obj.EmployeeId;
@@ -148,6 +143,7 @@ namespace MVCDemoEFr.Controllers
             var folderName = "EMP-" + employeeId;
             string uploadRoot = Server.MapPath("~/Images/");
             string folder = string.Format(uploadRoot + "/{0}/", folderName);
+            string filepath = string.Empty;
             if (!Directory.Exists(folder))
             {
                 Directory.CreateDirectory(folder);
@@ -155,8 +151,13 @@ namespace MVCDemoEFr.Controllers
             }
             if (fileName != null && fileName != "")
             {
-                var path = Path.Combine(folder, fileName);
-                model.IdProofName.SaveAs(path);
+                filepath = folder + fileName;
+                if (model.IdProofName != null)
+                {
+                    var path = Path.Combine(folder, fileName);
+                    model.IdProofName.SaveAs(path);
+                }
+
             }
         }
 
@@ -172,6 +173,8 @@ namespace MVCDemoEFr.Controllers
             obj.IdProofName = fileName;
             obj.CountryId = model.CountryId;
             obj.IsActive = model.IsActive;
+            obj.Email = model.Email;
+            obj.Mobile = model.Mobile;
             if (model.EmployeeId == 0)
             {
                 obj.CreatedOn = DateTime.Now;
@@ -256,6 +259,8 @@ namespace MVCDemoEFr.Controllers
             viewModel.Dob = employee.Dob.Value;
             viewModel.FileName = employee.IdProofName;
             viewModel.CountryId = employee.CountryId.Value;
+            viewModel.Email = employee.Email;
+            viewModel.Mobile = employee.Mobile;
             viewModel.IsActive = employee.IsActive.Value;
             viewModel.ImagePath = "E:/KIRAN/MVCDemo/MVCDemoEFr/Images/EMP-" + employee.EmployeeId + "/" + employee.IdProofName;
             viewModel.FileName = employee.IdProofName;
@@ -275,7 +280,7 @@ namespace MVCDemoEFr.Controllers
             if (System.IO.File.Exists(path))
             {
                 System.IO.File.Delete(path);
-                 isDelete = true;
+                isDelete = true;
             }
             return Json(isDelete, JsonRequestBehavior.AllowGet);
         }
