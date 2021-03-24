@@ -5,7 +5,7 @@ using System.Web;
 using System.Web.Mvc;
 using System.Web.Routing;
 
-namespace MVCDemoEFr
+namespace Employee.WebAPI
 {
     public class RouteConfig
     {
@@ -13,13 +13,12 @@ namespace MVCDemoEFr
         {
             routes.IgnoreRoute("{resource}.axd/{*pathInfo}");
 
-            routes.MapMvcAttributeRoutes();
-
             routes.MapRoute(
                 name: "Default",
                 url: "{controller}/{action}/{id}",
-                defaults: new { controller = "Home", action = "Index", id = UrlParameter.Optional }
+                defaults: new { action = "Index", id = UrlParameter.Optional }
             );
         }
     }
 }
+

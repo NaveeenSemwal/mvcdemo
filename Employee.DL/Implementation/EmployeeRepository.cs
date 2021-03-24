@@ -1,4 +1,5 @@
 ﻿using Employees.DL.Database;
+using Employees.DL.Implementation;
 using Employees.DL.Interface;
 using System;
 using System.Collections.Generic;
@@ -12,14 +13,12 @@ using User = Employees.DL.Database.Employee;
 
 namespace Employee.DL.Implementation
 {
-    public class EmployeeRepository : IDisposable, IEmployeeRepository
+    public class EmployeeRepository : BaseRepository, IDisposable, IEmployeeRepository
     {
-        EMSDemoEntities dbContext = new EMSDemoEntities();
-
         public User Add(User model)
         {
-            dbContext.Employees.Add(model);
-            dbContext.SaveChanges();
+            DbContext.Employees.Add(model);
+            DbContext.SaveChanges();
 
             return new User();
         }
@@ -33,7 +32,7 @@ namespace Employee.DL.Implementation
 
                 int take = page.Value * pageSize;
 
-                var userlist = dbContext.Employees.AsQueryable();
+                var userlist = DbContext.Employees.AsQueryable();
 
                 var criteria = GetFilterCriteria(sortOrder);
 
@@ -132,7 +131,7 @@ namespace Employee.DL.Implementation
 
         public User GetEmpById(int empId)
         {
-            var employee = dbContext.Employees.Where(x => x.EmployeeId == empId).FirstOrDefault();
+            var employee = DbContext.Employees.Where(x => x.EmployeeId == empId).FirstOrDefault();
 
             return employee;
 
@@ -141,7 +140,7 @@ namespace Employee.DL.Implementation
         public User Update(User model)
         {
             User emp = new User();
-            emp = dbContext.Employees.Where(x => x.EmployeeId == model.EmployeeId).FirstOrDefault();
+            emp = DbContext.Employees.Where(x => x.EmployeeId == model.EmployeeId).FirstOrDefault();
 
             if (emp != null)
             {
@@ -158,13 +157,10 @@ namespace Employee.DL.Implementation
                 {
                     emp.Mobile = model.Mobile;
                 }
-                dbContext.Employees.Attach(emp);
-                dbContext.Entry(emp).State = EntityState.Modified;
-                dbContext.SaveChanges();
+                DbContext.Employees.Attach(emp);
+                DbContext.Entry(emp).State = EntityState.Modified;
+                DbContext.SaveChanges();
             }
-
-
-
 
             return new User();
         }
@@ -174,6 +170,46 @@ namespace Employee.DL.Implementation
             throw new NotImplementedException();
         }
 
+        public User ResetPassword(int? id)
+        {
+            User obj = new User();
+            if (id != null)
+            {
+                obj = DbContext.Employees.Where(x => x.EmployeeId == id).SingleOrDefault();
 
+            }
+            return obj;
+        }
+
+        public User UpdatePassword(User model)
+        {
+            User emp = new User();
+            emp = DbContext.Employees.Where(x => x.EmployeeId == model.EmployeeId).FirstOrDefault();
+
+            if (emp != null)
+            {
+                emp.UserPassword = model.UserPassword;
+                emp.IsActive = model.IsActive;
+                emp.UpdatedOn = DateTime.Now;
+                DbContext.Employees.Attach(emp);
+                DbContext.Entry(emp).State = EntityState.Modified;
+                DbContext.SaveChanges();
+            }
+            return emp;
+        }
+
+        public User Login(User model)
+        {
+            User emp = null;
+            bool isExist = DbContext.Employees.Any(x => x.Email == model.Email && x.UserPassword == model.UserPassword && x.IsActive == true);
+
+            if (isExist)
+            {
+                emp = new User();
+                emp = DbContext.Employees.Where(x => x.Email == model.Email && x.UserPassword == model.UserPassword && x.IsActive == true).FirstOrDefault();
+            }
+
+            return emp;
+        }
     }
 }

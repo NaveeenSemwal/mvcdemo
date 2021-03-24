@@ -27,6 +27,8 @@ namespace Employees.DL.Database
         public Nullable<System.DateTime> UpdatedOn { get; set; }
         public string Email { get; set; }
         public string Mobile { get; set; }
+        public string UserPassword { get; set; }
+        public Nullable<bool> IsAdmin { get; set; }
     
         public virtual CountriesMater CountriesMater { get; set; }
         public virtual TitleMaster TitleMaster { get; set; }

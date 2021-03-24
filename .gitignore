@@ -4,3 +4,9 @@ packages/
 MVCDemoEFr/obj/
 /Employee.DL/bin/Debug
 /Employee.DL/obj/Debug
+/Employee.BL/bin/Debug
+/Employee.BL/obj/Debug
+/Employee.Model/obj/Debug
+/Employee.Model/bin/Debug
+/Employee.WebAPI/bin
+/Employee.WebAPI/obj/Debug

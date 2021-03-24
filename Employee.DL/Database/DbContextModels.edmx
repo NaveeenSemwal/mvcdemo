@@ -27,10 +27,12 @@
           <Property Name="IdProofName" Type="nvarchar" MaxLength="1000" Nullable="false" />
           <Property Name="CountryId" Type="int" />
           <Property Name="IsActive" Type="bit" />
-          <Property Name="CreatedOn" Type="date" />
-          <Property Name="UpdatedOn" Type="date" />
+          <Property Name="CreatedOn" Type="datetime" />
+          <Property Name="UpdatedOn" Type="datetime" />
           <Property Name="Email" Type="nvarchar" MaxLength="100" />
           <Property Name="Mobile" Type="nvarchar" MaxLength="10" />
+          <Property Name="UserPassword" Type="nvarchar" MaxLength="12" />
+          <Property Name="IsAdmin" Type="bit" />
         </EntityType>
         <EntityType Name="TitleMaster">
           <Key>
@@ -103,12 +105,14 @@
           <Property Name="IdProofName" Type="String" MaxLength="1000" FixedLength="false" Unicode="true" Nullable="false" />
           <Property Name="CountryId" Type="Int32" />
           <Property Name="IsActive" Type="Boolean" />
-          <Property Name="CreatedOn" Type="DateTime" Precision="0" />
-          <Property Name="UpdatedOn" Type="DateTime" Precision="0" />
+          <Property Name="CreatedOn" Type="DateTime" Precision="3" />
+          <Property Name="UpdatedOn" Type="DateTime" Precision="3" />
           <NavigationProperty Name="CountriesMater" Relationship="Self.FK__tblEmploy__Count__37A5467C" FromRole="Employee" ToRole="CountriesMater" />
           <NavigationProperty Name="TitleMaster" Relationship="Self.FK__tblEmploy__Title__36B12243" FromRole="Employee" ToRole="TitleMaster" />
           <Property Name="Email" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
           <Property Name="Mobile" Type="String" MaxLength="10" FixedLength="false" Unicode="true" />
+          <Property Name="UserPassword" Type="String" MaxLength="12" FixedLength="false" Unicode="true" />
+          <Property Name="IsAdmin" Type="Boolean" />
         </EntityType>
         <EntityType Name="TitleMaster">
           <Key>
@@ -174,6 +178,8 @@
           <EntitySetMapping Name="Employees">
             <EntityTypeMapping TypeName="MvcDemoModel.Employee">
               <MappingFragment StoreEntitySet="Employee">
+                <ScalarProperty Name="IsAdmin" ColumnName="IsAdmin" />
+                <ScalarProperty Name="UserPassword" ColumnName="UserPassword" />
                 <ScalarProperty Name="Mobile" ColumnName="Mobile" />
                 <ScalarProperty Name="Email" ColumnName="Email" />
                 <ScalarProperty Name="EmployeeId" ColumnName="EmployeeId" />

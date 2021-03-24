@@ -74,6 +74,7 @@
     <Compile Include="Database\TitleMaster.cs">
       <DependentUpon>DbContextModels.tt</DependentUpon>
     </Compile>
+    <Compile Include="Implementation\BaseRepository.cs" />
     <Compile Include="Implementation\CountryRepository.cs" />
     <Compile Include="Implementation\EmployeeRepository.cs" />
     <Compile Include="Implementation\TitleRepository.cs" />

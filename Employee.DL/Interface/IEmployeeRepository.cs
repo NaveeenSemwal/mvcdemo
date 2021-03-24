@@ -17,5 +17,11 @@ namespace Employees.DL.Interface
         User GetEmpById(int empId);
 
         User Update(User model);
+
+        User ResetPassword(int? id);
+
+        User UpdatePassword(User model);
+
+        User Login(User model);
     }
 }
