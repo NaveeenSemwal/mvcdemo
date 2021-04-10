@@ -21,7 +21,7 @@ namespace Employee.Model
                 titlelist.Add(new TitleMasterViewModel()
                 {
                     Title = a.Title,
-                    TitleId = a.TitleId
+                    TitleId = a.Id
                 });
             }
             return titlelist;

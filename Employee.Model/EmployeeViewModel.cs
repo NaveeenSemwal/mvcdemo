@@ -48,7 +48,7 @@ namespace Employee.Model
         public User AddUpdateEmployeeMapping(EmployeeViewModel model)
         {
             User obj = new User();
-            obj.EmployeeId = model.EmployeeId;
+            obj.Id = model.EmployeeId;
             obj.TitleId = model.TitleId;
             obj.FirstName = model.FirstName;
             obj.LastName = model.LastName;
@@ -85,9 +85,9 @@ namespace Employee.Model
             {
                 employees.Add(new EmployeeViewModel()
                 {
-                    EmployeeId = a.EmployeeId,
+                    EmployeeId = a.Id,
                     FirstName = a.TitleMaster.Title + a.FirstName + ' ' + a.LastName,
-                    Country = a.CountriesMater.CountryName,
+                    Country = a.CountriesMater.Name,
                     Dob = a.Dob.Value,
                     Gender = a.Gender == "M" ? "Male" : "Female",
                     Email = a.Email,

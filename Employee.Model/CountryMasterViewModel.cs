@@ -11,17 +11,17 @@ namespace Employee.Model
         public int CountryID { get; set; }
         public string CountryName { get; set; }
 
-        public List<CountryMasterViewModel> CountryListMapping(List<CountriesMater> dbcounList)
+        public List<CountryMasterViewModel> CountryListMapping(List<CountriesMaster> dbcounList)
         {
             List<CountryMasterViewModel> counlist = new List<CountryMasterViewModel>();
 
 
-            foreach (CountriesMater a in dbcounList)
+            foreach (CountriesMaster a in dbcounList)
             {
                 counlist.Add(new CountryMasterViewModel()
                 {
-                    CountryID = a.CountryID,
-                    CountryName = a.CountryName
+                    CountryID = a.Id,
+                    CountryName = a.Name
                 });
             }
 

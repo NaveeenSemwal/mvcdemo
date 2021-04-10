@@ -129,7 +129,7 @@ namespace Employee.WebUI.Controllers
 
             User obj = _employeeservice.Add(model);
 
-            int employeeId = obj.EmployeeId;
+            int employeeId = obj.Id;
             if (employeeId > 0)
             {
                 Save(model, employeeId);

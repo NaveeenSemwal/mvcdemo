@@ -40,7 +40,7 @@ namespace Employee.WebUI.Controllers
             {
 
                 User emp = _employeeservice.UpdatePassword(obj);
-                if (emp.EmployeeId > 0)
+                if (emp.Id > 0)
                 {
                     return RedirectToAction("Login");
                 }

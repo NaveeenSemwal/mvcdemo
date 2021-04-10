@@ -132,7 +132,7 @@ namespace Employee.DL.Implementation
 
         public User GetEmpById(int empId)
         {
-            var employee = DbContext.Employees.Where(x => x.EmployeeId == empId).FirstOrDefault();
+            var employee = DbContext.Employees.Where(x => x.Id == empId).FirstOrDefault();
 
             return employee;
 
@@ -141,7 +141,7 @@ namespace Employee.DL.Implementation
         public User Update(User model)
         {
             User emp = new User();
-            emp = DbContext.Employees.Where(x => x.EmployeeId == model.EmployeeId).FirstOrDefault();
+            emp = DbContext.Employees.Where(x => x.Id == model.Id).FirstOrDefault();
 
             if (emp != null)
             {
@@ -176,7 +176,7 @@ namespace Employee.DL.Implementation
             User obj = new User();
             if (id != null)
             {
-                obj = DbContext.Employees.Where(x => x.EmployeeId == id).SingleOrDefault();
+                obj = DbContext.Employees.Where(x => x.Id == id).SingleOrDefault();
 
             }
             return obj;
@@ -185,7 +185,7 @@ namespace Employee.DL.Implementation
         public User UpdatePassword(User model)
         {
             User emp = new User();
-            emp = DbContext.Employees.Where(x => x.EmployeeId == model.EmployeeId).FirstOrDefault();
+            emp = DbContext.Employees.Where(x => x.Id == model.Id).FirstOrDefault();
 
             if (emp != null)
             {

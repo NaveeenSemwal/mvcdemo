@@ -16,7 +16,7 @@ namespace Employee.BL.Implementation
 
         public IEnumerable<CountryMasterViewModel> GetCountries()
         {
-            List<CountriesMater> dbcounList = _countryRepository.GetCountries().ToList();
+            List<CountriesMaster> dbcounList = _countryRepository.GetCountries().ToList();
             CountryMasterViewModel objCoun = new CountryMasterViewModel();
             List<CountryMasterViewModel> counlist = objCoun.CountryListMapping(dbcounList);
             return counlist;
