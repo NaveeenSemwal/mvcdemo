@@ -1,6 +1,6 @@
 ﻿using System.Web.Mvc;
 
-namespace MVCDemoEFr.Controllers
+namespace Employee.WebUI.Controllers
 {
     [RoutePrefix("ems")]
     public class HomeController : Controller

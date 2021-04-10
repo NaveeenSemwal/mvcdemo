@@ -1,13 +1,12 @@
 ﻿using Employee.Model;
-using Employee.Utilities;
-using MVCDemoEFr.Properties;
+using Employee.WebUI.Properties;
 using System;
 using System.Web;
 using System.Web.Mvc;
 using System.Web.Security;
 using User = Employees.DL.Database.Employee;
 
-namespace MVCDemoEFr.Controllers
+namespace Employee.WebUI.Controllers
 {
     [RoutePrefix("ems")]
     public class AccountController : BaseController

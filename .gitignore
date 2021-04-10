@@ -11,3 +11,5 @@ MVCDemoEFr/obj/
 /Employee.WebAPI/bin
 /Employee.WebAPI/obj/Debug
 /Employee.Utilities/obj/Debug
+/Employee.WebUI/bin
+/Employee.WebUI/obj/Debug

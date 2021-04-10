@@ -11,7 +11,7 @@ using System.Web;
 using System.Web.Mvc;
 using User = Employees.DL.Database.Employee;
 
-namespace MVCDemoEFr.Controllers
+namespace Employee.WebUI.Controllers
 {
     [RoutePrefix("ems")]
     // [Authorize]

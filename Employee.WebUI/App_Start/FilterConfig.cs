@@ -1,7 +1,7 @@
 ﻿using System.Web;
 using System.Web.Mvc;
 
-namespace MVCDemoEFr
+namespace Employee.WebUI
 {
     public class FilterConfig
     {
