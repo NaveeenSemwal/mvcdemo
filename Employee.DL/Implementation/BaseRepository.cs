@@ -27,6 +27,9 @@ namespace Employees.DL.Implementation
                         }
                     }
                 }
+
+                _dbContext.Database.CommandTimeout = 180;
+
                 return _dbContext;
             }
         }

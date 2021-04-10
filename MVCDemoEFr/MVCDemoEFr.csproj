@@ -138,6 +138,7 @@
     <Compile Include="Controllers\BaseController.cs" />
     <Compile Include="Controllers\EmployeeController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
+    <Compile Include="Events\EmployeeNotificationEventArgs.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
@@ -227,6 +228,10 @@
     <ProjectReference Include="..\Employee.Model\Employee.Model.csproj">
       <Project>{e015df4f-57c3-4a62-9f4f-8ee749b9ee7b}</Project>
       <Name>Employee.Model</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Employee.Utilities\Employee.Utilities.csproj">
+      <Project>{6033408d-1dd7-4af4-ae9d-35d1d252ad07}</Project>
+      <Name>Employee.Utilities</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>

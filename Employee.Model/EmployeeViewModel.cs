@@ -92,7 +92,7 @@ namespace Employee.Model
                     Gender = a.Gender == "M" ? "Male" : "Female",
                     Email = a.Email,
                     Mobile = a.Mobile == null ? "N/A" : a.Mobile,
-                    CreatedOn = a.CreatedOn.Value
+                   CreatedOn = a.CreatedOn.Value
 
 
 

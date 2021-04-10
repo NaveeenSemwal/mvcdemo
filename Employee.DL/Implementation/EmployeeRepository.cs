@@ -4,6 +4,7 @@ using Employees.DL.Interface;
 using System;
 using System.Collections.Generic;
 using System.Data.Entity;
+using System.Data.SqlClient;
 using System.IO;
 using System.Linq;
 using System.Linq.Expressions;
@@ -201,14 +202,26 @@ namespace Employee.DL.Implementation
         public User Login(User model)
         {
             User emp = null;
-            bool isExist = DbContext.Employees.Any(x => x.Email == model.Email && x.UserPassword == model.UserPassword && x.IsActive == true);
-
-            if (isExist)
+            try
             {
-                emp = new User();
-                emp = DbContext.Employees.Where(x => x.Email == model.Email && x.UserPassword == model.UserPassword && x.IsActive == true).FirstOrDefault();
-            }
+                bool isExist = DbContext.Employees.Any(x => x.Email == model.Email && x.UserPassword == model.UserPassword && x.IsActive == true);
 
+                if (isExist)
+                {
+                    emp = new User();
+                    emp = DbContext.Employees.Where(x => x.Email == model.Email && x.UserPassword == model.UserPassword && x.IsActive == true).FirstOrDefault();
+                }
+
+            }
+            catch(SqlException exc)
+            {
+                throw exc;
+            }
+            catch (Exception exc)
+            {
+
+                throw exc;
+            }
             return emp;
         }
     }

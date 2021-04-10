@@ -2,6 +2,7 @@
 
 namespace MVCDemoEFr.Controllers
 {
+    [RoutePrefix("ems")]
     public class HomeController : Controller
     {
         /// <summary>
@@ -9,11 +10,17 @@ namespace MVCDemoEFr.Controllers
         /// </summary>
         /// <returns></returns>
 
-
+        // https://devblogs.microsoft.com/aspnet/attribute-routing-in-asp-net-mvc-5/
 
         // ems/home
+        // Use a tilde (~) on the method attribute to override the route prefix if needed:
+        [Route("~/")]
+        [Route("home")]
         public ActionResult Index()
         {
+            //MailService mailService = new MailService();
+            //EmployeeNotification.EmployeeAdded += mailService.EmployeeNotification_EmployeeAdded;
+
             return View();
         }
 

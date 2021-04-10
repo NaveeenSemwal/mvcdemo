@@ -1,4 +1,5 @@
 ﻿using Employee.Model;
+using Employee.Utilities;
 using MVCDemoEFr.Properties;
 using System;
 using System.Web;
@@ -11,6 +12,9 @@ namespace MVCDemoEFr.Controllers
     [RoutePrefix("ems")]
     public class AccountController : BaseController
     {
+        
+
+
         [Route("register/password/{id:int}")]
         [HttpGet]
         public ActionResult ResetPassword(int? id)
@@ -55,13 +59,19 @@ namespace MVCDemoEFr.Controllers
         }
 
 
-        // ems/employees/login
+        [Route("employee/login")]
         [HttpGet]
         public ActionResult Login()
         {
+            
+            
+
             return View();
         }
 
+       
+
+        [Route("employee/login")]
         [HttpPost]
         public ActionResult Login(LoginViewModel model)
         {
@@ -93,6 +103,8 @@ namespace MVCDemoEFr.Controllers
             }
 
         }
+
+        [Route("employee/logout")]
         public ActionResult Logout()
         {
             FormsAuthentication.SignOut();

@@ -1,23 +1,24 @@
 ﻿using Employee.Model;
-using Employees.DL.Database;
-using Employees.DL.Implementation;
+using Employee.Utilities;
 using PagedList;
 using System;
 using System.Collections.Generic;
 using System.Configuration;
 using System.IO;
 using System.Linq;
+using System.Threading;
 using System.Web;
 using System.Web.Mvc;
 using User = Employees.DL.Database.Employee;
 
 namespace MVCDemoEFr.Controllers
 {
-
-    [Authorize]
+    [RoutePrefix("ems")]
+    // [Authorize]
     public class EmployeeController : BaseController
     {
-        // ems/employees
+        // ems/employee
+        [Route("employees")]
         public ActionResult Index(string sortOrder, string currentFilter, string searchString, int? page = 1)
         {
             int pageSize = 3;
@@ -43,6 +44,7 @@ namespace MVCDemoEFr.Controllers
         }
 
         // ems/employees/1
+        [Route("employees/{id:int}")]
         //[Authorize(Roles = "Admin")]
         [HttpGet]
         public ActionResult Edit(int id)
@@ -60,6 +62,7 @@ namespace MVCDemoEFr.Controllers
             return View(employee);
         }
 
+        [Route("employee/delete/file/{id:int}")]
         [HttpPost]
         public JsonResult DeleteImage(int id, string filename)
         {
@@ -74,14 +77,18 @@ namespace MVCDemoEFr.Controllers
         }
 
         // ems/employees/register
+        [Route("employee/register")]
         [AllowAnonymous]
         [HttpGet]
         public ActionResult Create()
         {
+
             ViewBag.CountryList = new SelectList(GetCountryList(), "CountryId", "CountryName");
             ViewBag.TitleList = new SelectList(GetTitleList(), "TitleId", "Title");
             return View();
         }
+
+
 
         [HttpGet]
         public IEnumerable<TitleMasterViewModel> GetTitleList()
@@ -100,6 +107,7 @@ namespace MVCDemoEFr.Controllers
         }
 
         // ems/employees/register
+        [Route("employee/register")]
         [AllowAnonymous]
         [HttpPost]
         [ValidateAntiForgeryToken]
@@ -126,10 +134,32 @@ namespace MVCDemoEFr.Controllers
             {
                 Save(model, employeeId);
                 //Send mail function
+
+                Thread background = new Thread(() => DoWork(model));
+                background.IsBackground = true;
+                background.Start();
+
                 return RedirectToAction("Index", "Employee");
             }
             return View();
 
+        }
+
+
+        public void DoWork(EmployeeViewModel model)
+        {
+            MailService mailService = new MailService();
+            EmployeeNotificationEvent += mailService.EmailNotification_EmployeeAdded;
+
+
+            MessageService messageService = new MessageService();
+            EmployeeNotificationEvent += messageService.MessageNotification_EmployeeAdded;
+
+
+            DatabaseService databaseService = new DatabaseService();
+            EmployeeNotificationEvent += databaseService.DatabaseNotification_EmployeeAdded;
+
+            OnEmployeeAdded(new Events.EmployeeNotificationEventArgs() { Employee = model });
         }
 
         private void Save(EmployeeViewModel model, int employeeId)

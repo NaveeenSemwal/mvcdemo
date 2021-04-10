@@ -10,16 +10,22 @@
 <script src="~/Scripts/jquery-3.4.1.min.js"></script>
 <script>
     $(document).ready(function () {
+        var filename = "";
         $('#idproof').hide();
         $('#idproofname').show();
 
         $('#deleteItem').click(function (e) {
             e.preventDefault();
             var id = '@ViewBag.EmployeeId';
-            var filename = '@ViewBag.ImageName'
+            filename = '@ViewBag.ImageName'
+
+            var url = "https://localhost:44349/ems/employee/delete/file/" + id;
+
+       // alert(url);
+
             if (confirm('Do you really want to delete this item?')) {
                 $.ajax({
-                    url: '@Url.Action("DeleteImage")',
+                    url: url,
                     type: 'Post',
                     data: { id: id, filename: filename}
                 }).done(function (data) {
@@ -32,7 +38,7 @@
                     else if (data==false) {
                         $('#idproof').hide();
                         $('#idproofname').show();
-                        alert("File not deleted successfully.");
+                        alert("File does not exist.");
                     }
 
                 }).fail(function () {

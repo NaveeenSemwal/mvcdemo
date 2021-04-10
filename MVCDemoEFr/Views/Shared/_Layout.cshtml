@@ -26,19 +26,19 @@
                         <li>@Html.ActionLink("Register", "About", "Home")</li>
                         <li>@Html.ActionLink("Employee List", "Contact", "Home")</li>
                         <li><a class="navbar-brand"> Hi... @User.Identity.Name</a></li>
-                        <li>@Html.ActionLink("Logout", "Logout", "Account")</li>
+                        <li>@Html.ActionLink("Logout", "employee/logout", "ems")</li>
                     </ul>
                 </div>
 
-                
+
             }
             else
             {
-        <div class="navbar-collapse collapse">
-            <ul class="nav navbar-nav">
-                <li>@Html.ActionLink("Login", "Login", "Account")</li>
-            </ul>
-        </div>
+                <div class="navbar-collapse collapse">
+                    <ul class="nav navbar-nav">
+                        <li>@Html.ActionLink("Login", "Login", "Account")</li>
+                    </ul>
+                </div>
             }
         </div>
     </div>
