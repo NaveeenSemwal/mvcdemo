@@ -5,7 +5,7 @@ using System.Web.Mvc;
 
 namespace Employee.WebUI.Controllers
 {
-    [RoutePrefix("ems")]
+ 
     public class BaseController : Controller
     {
 
