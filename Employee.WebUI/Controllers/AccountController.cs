@@ -11,7 +11,7 @@ namespace Employee.WebUI.Controllers
     [RoutePrefix("ems")]
     public class AccountController : BaseController
     {
-        
+        // TODO : Implement forget password 
 
 
         [Route("register/password/{id:int}")]
@@ -62,9 +62,6 @@ namespace Employee.WebUI.Controllers
         [HttpGet]
         public ActionResult Login()
         {
-            
-            
-
             return View();
         }
 

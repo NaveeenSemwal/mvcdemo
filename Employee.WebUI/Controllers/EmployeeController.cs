@@ -7,7 +7,9 @@ using System.Configuration;
 using System.IO;
 using System.Linq;
 using System.Threading;
+using System.Threading.Tasks;
 using System.Web;
+using System.Web.Hosting;
 using System.Web.Mvc;
 using User = Employees.DL.Database.Employee;
 
@@ -17,7 +19,7 @@ namespace Employee.WebUI.Controllers
     // [Authorize]
     public class EmployeeController : BaseController
     {
-        // ems/employee
+       
         [Route("employees")]
         public ActionResult Index(string sortOrder, string currentFilter, string searchString, int? page = 1)
         {
@@ -43,15 +45,15 @@ namespace Employee.WebUI.Controllers
             return View(_employeeservice.GetList(searchString, sortOrder, page, pageSize).ToList().ToPagedList(pageNumber, pageSize));
         }
 
-        // ems/employees/1
+      
         [Route("employees/{id:int}")]
         //[Authorize(Roles = "Admin")]
         [HttpGet]
         public ActionResult Edit(int id)
         {
 
-            ViewBag.CountryList = new SelectList(GetCountryList(), "CountryId", "CountryName");
-            ViewBag.TitleList = new SelectList(GetTitleList(), "TitleId", "Title");
+            //ViewBag.CountryList = new SelectList(GetCountryList(), "CountryId", "CountryName");
+            //ViewBag.TitleList = new SelectList(GetTitleList(), "TitleId", "Title");
             EmployeeViewModel employee = _employeeservice.GetEmpById(id);
             ViewBag.EmployeeId = employee.EmployeeId;
             var url = ConfigurationManager.AppSettings["Baseurl"];
@@ -76,33 +78,31 @@ namespace Employee.WebUI.Controllers
             return Json(isDelete, JsonRequestBehavior.AllowGet);
         }
 
-        // ems/employees/register
+        
         [Route("employee/register")]
         [AllowAnonymous]
         [HttpGet]
-        public ActionResult Create()
+        public async Task<ActionResult> Create()
         {
+            // Implement Capta code
 
-            ViewBag.CountryList = new SelectList(GetCountryList(), "CountryId", "CountryName");
-            ViewBag.TitleList = new SelectList(GetTitleList(), "TitleId", "Title");
+            ViewBag.CountryList = new SelectList(await GetCountryList(), "CountryId", "CountryName");
+            ViewBag.TitleList = new SelectList( await GetTitleList(), "TitleId", "Title");
             return View();
         }
 
 
 
         [HttpGet]
-        public IEnumerable<TitleMasterViewModel> GetTitleList()
+        public async Task<IEnumerable<TitleMasterViewModel>> GetTitleList()
         {
-
-            return _titleservice.GetTitles().ToList();
-
-
+            return await Task.FromResult(_titleservice.GetTitles().ToList());
         }
 
         [HttpGet]
-        public IEnumerable<CountryMasterViewModel> GetCountryList()
+        public async Task<IEnumerable<CountryMasterViewModel>> GetCountryList()
         {
-            return _countryservice.GetCountries().ToList();
+            return await Task.FromResult(_countryservice.GetCountries().ToList());
 
         }
 
@@ -132,19 +132,17 @@ namespace Employee.WebUI.Controllers
             int employeeId = obj.Id;
             if (employeeId > 0)
             {
-                Save(model, employeeId);
+                HostingEnvironment.QueueBackgroundWorkItem(cancellationToken => Save(model, employeeId));
                 //Send mail function
+                DoWork(model);
 
-                Thread background = new Thread(() => DoWork(model));
-                background.IsBackground = true;
-                background.Start();
+
 
                 return RedirectToAction("Index", "Employee");
             }
             return View();
 
         }
-
 
         public void DoWork(EmployeeViewModel model)
         {
@@ -162,7 +160,7 @@ namespace Employee.WebUI.Controllers
             OnEmployeeAdded(new Events.EmployeeNotificationEventArgs() { Employee = model });
         }
 
-        private void Save(EmployeeViewModel model, int employeeId)
+        private void Save(EmployeeViewModel model, int employeeId, CancellationToken cancellationToken = default(CancellationToken))
         {
             HttpPostedFileBase file = Request.Files[0];
             var folderName = "EMP-" + employeeId;
