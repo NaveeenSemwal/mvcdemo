@@ -1,4 +1,5 @@
-﻿using Employee.Model;
+﻿using Employee.BL.Interface;
+using Employee.Model;
 using Employee.WebUI.Properties;
 using System;
 using System.Web;
@@ -11,6 +12,10 @@ namespace Employee.WebUI.Controllers
     [RoutePrefix("ems")]
     public class AccountController : BaseController
     {
+        public AccountController(IEmployeeService employeeService, ICountryService countryService, ITitleService titleService) : base(employeeService, countryService, titleService)
+        {
+        }
+
         // TODO : Implement forget password 
 
 
@@ -21,7 +26,7 @@ namespace Employee.WebUI.Controllers
             if (!id.HasValue)
                 throw new Exception(Resources.IdNullInRegisterPassword);
 
-            var model = _employeeservice.ResetPassword(id);
+            var model = _employeeService.ResetPassword(id);
             if (model != null)
             {
                 return View(model);
@@ -39,7 +44,7 @@ namespace Employee.WebUI.Controllers
             try
             {
 
-                User emp = _employeeservice.UpdatePassword(obj);
+                User emp = _employeeService.UpdatePassword(obj);
                 if (emp.Id > 0)
                 {
                     return RedirectToAction("Login");
@@ -77,12 +82,17 @@ namespace Employee.WebUI.Controllers
             }
 
 
-            User emp = _employeeservice.Login(model);
+            User emp = _employeeService.Login(model);
 
             if (emp != null)
             {
-                string role = emp.IsAdmin != null ? "Admin" : "Employee";
+                if (!emp.IsActive.HasValue || !emp.IsActive.Value )
+                {
+                    ModelState.AddModelError("", "User account is not Active.");
+                    return View(model);
+                }
 
+                string role = emp.IsAdmin != null ? "Admin" : "Employee";
                 FormsAuthentication.SetAuthCookie(emp.FirstName, false);
 
                 var authTicket = new FormsAuthenticationTicket(1, emp.Email, DateTime.Now, DateTime.Now.AddMinutes(20), false, role);

@@ -6,40 +6,27 @@ using System.Web.Mvc;
 namespace Employee.WebUI.Controllers
 {
  
-    public class BaseController : Controller
+    public abstract class BaseController : Controller
     {
+        protected readonly IEmployeeService _employeeService;
+        protected readonly ICountryService _countryService;
+        protected readonly ITitleService _titleService;
 
-        protected readonly IEmployeeService _employeeservice;
-        protected readonly ICountryService _countryservice;
-        protected readonly ITitleService _titleservice;
+        public BaseController(IEmployeeService employeeService, ICountryService countryService, ITitleService titleService)
+        {
+            _employeeService = employeeService;
+            _countryService = countryService;
+            _titleService = titleService;
+        }
 
-       
-       
 
         public delegate void AddEmployeeNotificationHandler(object sender, EmployeeNotificationEventArgs eventArgs);
 
-
         public event AddEmployeeNotificationHandler EmployeeNotificationEvent;
-
-
-
 
         protected virtual void OnEmployeeAdded(EmployeeNotificationEventArgs eventArgs)
         {
             EmployeeNotificationEvent?.Invoke(this, eventArgs);
-               
-           
-        }
-
-        public BaseController()
-        {
-            _employeeservice = new EmployeeService();
-            _countryservice = new CountryService();
-            _titleservice = new TitleService();
-
-           
-            
-
         }
     }
 }

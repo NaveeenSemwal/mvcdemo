@@ -1,4 +1,5 @@
-﻿using Employee.Model;
+﻿using Employee.BL.Interface;
+using Employee.Model;
 using Employee.Utilities;
 using PagedList;
 using System;
@@ -19,7 +20,10 @@ namespace Employee.WebUI.Controllers
     // [Authorize]
     public class EmployeeController : BaseController
     {
-       
+        public EmployeeController(IEmployeeService employeeService, ICountryService countryService, ITitleService titleService) : base(employeeService, countryService, titleService)
+        {
+        }
+
         [Route("employees")]
         public ActionResult Index(string sortOrder, string currentFilter, string searchString, int? page = 1)
         {
@@ -42,7 +46,7 @@ namespace Employee.WebUI.Controllers
 
 
             int pageNumber = (page ?? 1);
-            return View(_employeeservice.GetList(searchString, sortOrder, page, pageSize).ToList().ToPagedList(pageNumber, pageSize));
+            return View(_employeeService.GetList(searchString, sortOrder, page, pageSize).ToList().ToPagedList(pageNumber, pageSize));
         }
 
       
@@ -54,7 +58,7 @@ namespace Employee.WebUI.Controllers
 
             //ViewBag.CountryList = new SelectList(GetCountryList(), "CountryId", "CountryName");
             //ViewBag.TitleList = new SelectList(GetTitleList(), "TitleId", "Title");
-            EmployeeViewModel employee = _employeeservice.GetEmpById(id);
+            EmployeeViewModel employee = _employeeService.GetEmpById(id);
             ViewBag.EmployeeId = employee.EmployeeId;
             var url = ConfigurationManager.AppSettings["Baseurl"];
             ViewBag.ImagePath = url + "Images/EMP-" + employee.EmployeeId + "/" + employee.IdProofName;
@@ -96,13 +100,13 @@ namespace Employee.WebUI.Controllers
         [HttpGet]
         public async Task<IEnumerable<TitleMasterViewModel>> GetTitleList()
         {
-            return await Task.FromResult(_titleservice.GetTitles().ToList());
+            return await Task.FromResult(_titleService.GetTitles().ToList());
         }
 
         [HttpGet]
         public async Task<IEnumerable<CountryMasterViewModel>> GetCountryList()
         {
-            return await Task.FromResult(_countryservice.GetCountries().ToList());
+            return await Task.FromResult(_countryService.GetCountries().ToList());
 
         }
 
@@ -127,7 +131,7 @@ namespace Employee.WebUI.Controllers
                 model.IdProofName = model.FileName;
             }
 
-            User obj = _employeeservice.Add(model);
+            User obj = _employeeService.Add(model);
 
             int employeeId = obj.Id;
             if (employeeId > 0)

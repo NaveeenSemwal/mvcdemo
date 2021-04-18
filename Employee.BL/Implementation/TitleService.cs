@@ -1,18 +1,18 @@
 ﻿using Employee.BL.Interface;
 using Employee.Model;
 using Employees.DL.Database;
-using Employees.DL.Implementation;
-using System;
+using Employees.DL.Interface;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Employee.BL.Implementation
 {
     public class TitleService : BaseService, ITitleService
     {
-       
+        public TitleService(IEmployeeRepository employeeRepository, ICountryRepository countryRepository, ITitleMasterRepository titleRepository) : base(employeeRepository, countryRepository, titleRepository)
+        {
+        }
+
         public IEnumerable<TitleMasterViewModel> GetTitles()
         {
             List<TitleMaster> dbtitleList = _titleRepository.GetTitles().ToList();

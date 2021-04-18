@@ -1,15 +1,10 @@
-﻿using Employees.DL.Database;
-using Employees.DL.Implementation;
+﻿using Employees.DL.Implementation;
 using Employees.DL.Interface;
 using System;
-using System.Collections.Generic;
 using System.Data.Entity;
 using System.Data.SqlClient;
-using System.IO;
 using System.Linq;
 using System.Linq.Expressions;
-using System.Text;
-using System.Threading.Tasks;
 using User = Employees.DL.Database.Employee;
 
 namespace Employee.DL.Implementation
@@ -27,6 +22,7 @@ namespace Employee.DL.Implementation
 
         public IQueryable<User> GetList(string searchString, string sortOrder, int? page, int pageSize)
         {
+            // TODO : Move this logic to BL and use Predicate
             try
             {
                 int skip = (((page.Value - 1) * pageSize) + 1) - 1;
@@ -204,12 +200,12 @@ namespace Employee.DL.Implementation
             User emp = null;
             try
             {
-                bool isExist = DbContext.Employees.Any(x => x.Email == model.Email && x.UserPassword == model.UserPassword && x.IsActive == true);
+                bool isExist = DbContext.Employees.Any(x => x.Email == model.Email && x.UserPassword == model.UserPassword);
 
                 if (isExist)
                 {
                     emp = new User();
-                    emp = DbContext.Employees.Where(x => x.Email == model.Email && x.UserPassword == model.UserPassword && x.IsActive == true).FirstOrDefault();
+                    emp = DbContext.Employees.Where(x => x.Email == model.Email && x.UserPassword == model.UserPassword).FirstOrDefault();
                 }
 
             }

@@ -13,3 +13,13 @@ MVCDemoEFr/obj/
 /Employee.Utilities/obj/Debug
 /Employee.WebUI/bin
 /Employee.WebUI/obj/Debug
+/Employee.BL/obj/Release
+/Employee.Model/obj/Release
+/Employee.Utilities/obj/Release
+/Employee.DL/obj/Release
+/Employee.WebUI/obj/Release
+/Employee.WebAPI/obj/Release
+/Employee.BL/bin/Release
+/Employee.DL/bin/Release
+/Employee.Model/bin/Release
+/Employee.Utilities/bin/Debug

@@ -1,18 +1,18 @@
 ﻿using Employee.BL.Interface;
-using Employee.DL.Implementation;
 using Employee.Model;
 using Employees.DL.Interface;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using User = Employees.DL.Database.Employee;
 
 namespace Employee.BL.Implementation
 {
     public class EmployeeService : BaseService, IEmployeeService
     {
+        public EmployeeService(IEmployeeRepository employeeRepository, ICountryRepository countryRepository, ITitleMasterRepository titleRepository) : base(employeeRepository, countryRepository, titleRepository)
+        {
+        }
 
         public User Add(EmployeeViewModel model)
         {

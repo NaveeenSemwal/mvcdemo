@@ -7,6 +7,11 @@ using System.Threading.Tasks;
 
 namespace Employees.DL.Implementation
 {
+    /// <summary>
+    /// TODO : https://techbrij.com/generic-repository-unit-of-work-entity-framework-unit-testing-asp-net-mvc
+    /// 
+    /// https://www.programmingwithwolfgang.com/repository-and-unit-of-work-pattern/
+    /// </summary>
     public abstract class BaseRepository
     {
         private static readonly object padlock = new object();
